@@ -1,0 +1,18 @@
+li input,
+li button,
+li img {
+  padding: 10px;
+  margin-left: 5px;
+}
+
+li input {
+  width: 100%;
+}
+
+.accordion .card-body {
+  cursor: pointer;
+}
+
+input[type="text"] {
+  width: 260px;
+}
