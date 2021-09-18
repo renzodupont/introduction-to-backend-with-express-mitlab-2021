@@ -19,9 +19,29 @@ const useDataApi = (initialUrl, initialData) => {
   const fetchData = async (isLocked, u) => {
     dispatch({ type: "FETCH_INIT" });
     try {
-      const result = await axios(u);
+      const data = JSON.stringify({
+        query: `query {
+          products { 
+              name
+              cost
+              inStock
+          }
+        }`,
+      });
+
+      const config = {
+        method: "post",
+        url: u,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      const result = await axios(config);
+      console.log(result.data.data.products);
       if (!isLocked) {
-        dispatch({ type: "FETCH_SUCCESS", payload: result.data });
+        dispatch({ type: "FETCH_SUCCESS", payload: result.data.data.products });
       }
     } catch (error) {
       if (!isLocked) {
@@ -77,7 +97,7 @@ const Cart = (props) => {
 const Products = (props) => {
   const [cart, setCart] = React.useState([]);
   const [inputUrl, setInputUrl] = React.useState(
-    "http://localhost:1337/products"
+    "http://localhost:1337/graphql"
   );
   const { Card, Accordion, Button, Container, Row, Col, Image } =
     ReactBootstrap;
